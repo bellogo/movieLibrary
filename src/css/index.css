@@ -1,0 +1,99 @@
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+article {
+  background: #8588ac;
+  font-family: 'Bangers', cursive;
+  text-align: center;
+}
+
+.card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 230px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 330px;
+  text-align: center;
+  border: none;
+}
+
+.card .title {
+  margin: 0;
+  padding: 0;
+}
+
+.card .title:hover {
+  font-weight: bold;
+}
+
+.card div.background {
+  height: 320px;
+  width: 230px;
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.card div.background:hover div.hover {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 230px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 310px;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  background-color: rgba(0, 0, 0, 0.678);
+}
+
+.card div.background:hover div.hover span {
+  color: white;
+}
+
+.card div.background:hover div.hover p {
+  color: white;
+}
+
+.card div.background:hover div.hover a {
+  text-decoration: none;
+  color: white;
+}
+
+.card div.background:hover div.hover a:hover {
+  color: #f3aa22;
+}
+
+div.hover {
+  display: none;
+}
+
+main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+/*# sourceMappingURL=index.css.map */

@@ -3,6 +3,7 @@ const MiniCssExtractPlugin = require("html-webpack-plugin")
 const webpack = require('webpack');
 
 module.exports = {
+    devtool: 'eval',
     module: {
         rules: [
             {
@@ -16,7 +17,7 @@ module.exports = {
                 test: /\.(css|scss)$/,
                 use: [
                     'style-loader',
-                    'css-loader',
+                    'css-loader?sourceMap',
                     'sass-loader'
                 ]
             },
