@@ -71,6 +71,9 @@ const Drama = document.getElementById('Drama');
 const Horror = document.getElementById('Horror');
 const Adventure = document.getElementById('Adventure');
 const watchbtn = document.getElementById('watchbtn');
+const unwatchedid = document.getElementById('unwatchedid');
+const watchedid = document.getElementById('watchedid');
+
 
 // FUNCTIONS
 const enableSaveButton = () => {
@@ -144,38 +147,44 @@ const renderThisElement = (allData, a) => {
 
 
 const renderElementgroup = (group) => {
+  if (group === 'action' || 'adventure' || 'horror' || 'drama' || 'crime' || 'mystery' || 'sci-fi' || 'comedy' || 'fantasy' || 'thriller' || 'history' || 'family' || 'animation') {
+    let allData = JSON.parse(localStorage.getItem("database"));
+    clearRenderedMovies();
+    for (let b = allData.length - 1; b > -1; b--) {
+      for (let c = 0; c < allData[b].genre.length; c++) {
+        if (group === allData[b].genre[c]) {
+          renderThisElement(allData, b);
+        }
+      }
+    }
+  }
+
+  if (group === 'unwatched') {
+    let allData = JSON.parse(localStorage.getItem("database"));
+    clearRenderedMovies();
+    for (let p = allData.length - 1; p > -1; p--) {
+      if (allData[p].watched === false) {
+        renderThisElement(allData, p);
+      }
+    }
+  }
+
+  if (group === 'watched') {
+    let allData = JSON.parse(localStorage.getItem("database"));
+    clearRenderedMovies();
+    for (let t = allData.length - 1; t > -1; t--) {
+      if (allData[t].watched === true) {
+        renderThisElement(allData, t);
+      }
+    }
+  }
+
   if (group === "all") {
     let allData = JSON.parse(localStorage.getItem("database"));
     clearRenderedMovies();
-    // allData.map(item => renderElement(item));
     for (let a = allData.length - 1; a > -1; a--) {
-
       renderThisElement(allData, a);
-
-
-      // renderElement(allData[a]);
     }
-  } else if (group == 'action' || 'adventure' || 'horror' || 'drama' || 'crime' || 'mystery' || 'sci-fi' || 'comedy' || 'fantasy' || 'thriller' || 'history' || 'family' || 'animation') {
-    let allData = JSON.parse(localStorage.getItem("database"));
-    clearRenderedMovies();
-    // console.log(allData.length)
-
-    for (let b = allData.length - 1; b > -1; b--) {
-
-      for (let c = 0; c < allData[b].genre.length; c++) {
-        // console.log(allData.length)
-        // console.log(allData[b].genre[c])
-
-        if (group == allData[b].genre[c]) {
-          renderThisElement(allData, b);
-
-
-        }
-
-      }
-    }
-    
-
   }
 }
 const getCheckBoxArray = () => {
@@ -362,29 +371,19 @@ saveEditButton.addEventListener('click', (event) => {
   renderElementgroup('all');
   clearInputValues();
 
-  // data[editIndex].title = titleInput.value;
-  // data[editIndex].rating = ratingInput.value;
-  // data[editIndex].description = descriptionInput.value;
-  // data[editIndex].imagelnk = imageLinkInput.value;
-  // data[editIndex].trailerlnk = trailerLinkInput.value;
-  // data[editIndex].watchlnk = watchLinkInput.value;
-  // data[editIndex].downloadLq = downloadLqInput.value;
-  // data[editIndex].downloadHq = downloadHqInput.value;
-  // const getCheckBoxArray = () => {
-  //   let genreList = [];
-  //   for (let i = 0; i < allCheckBoxes.length; i++) {
-  //     if (allCheckBoxes[i].checked === true) {
-  //       genreList.push(allCheckBoxes[i].value);
-  //     }
-  //   }
-  //   return genreList;
-  // }
-  // if (getCheckBoxArray().length > 0) {
-  //   data[editIndex].genre = getCheckBoxArray();
-  // }
-  // localStorage.setItem('database', JSON.stringify(data));
-
 })
+
+watchbtn.addEventListener('click', (event) => {
+  console.log(event.target.getAttribute('data-ind'));
+  let data = JSON.parse(localStorage.getItem('database'));
+  let editIndex = parseInt(event.target.getAttribute('data-ind'), 10);
+  if (data[editIndex].watched === false) {
+    data[editIndex].watched = true;
+    localStorage.setItem('database', JSON.stringify(data));
+  }
+  window.open(event.target.getAttribute('data-href'))
+})
+
 
 deletebutton.addEventListener('click', (event) => {
   let data = JSON.parse(localStorage.getItem('database'));
@@ -394,11 +393,8 @@ deletebutton.addEventListener('click', (event) => {
 });
 
 MovieFormModal.addEventListener('focus', (event) => {
-  console.log(event.target.getAttribute("data-arg"));
+  // console.log(event.target.getAttribute("data-arg"));
   if (event.target.getAttribute("data-arg") !== "addmovie") {
-
-
-
     modalLabel.textContent = 'Edit Movie';
     let editIndex = parseInt(event.target.getAttribute("data-arg"), 10);
     saveEditButton.removeAttribute('disabled');
@@ -411,6 +407,8 @@ MovieFormModal.addEventListener('focus', (event) => {
 
 })
 
+
+
 navHome.addEventListener('click', () => {
   renderElementgroup('all');
 })
@@ -418,7 +416,7 @@ navHome.addEventListener('click', () => {
 actionlnk.addEventListener('click', () => {
   renderElementgroup('Action');
   confirmEmptyCategory();
-  
+
 })
 Animation.addEventListener('click', () => {
   renderElementgroup('Animation');
@@ -467,4 +465,10 @@ Horror.addEventListener('click', () => {
 Adventure.addEventListener('click', () => {
   renderElementgroup('Adventure');
   confirmEmptyCategory();
+})
+unwatchedid.addEventListener('click', () => {
+  renderElementgroup('unwatched');
+})
+watchedid.addEventListener('click', () => {
+  renderElementgroup('watched');
 })
