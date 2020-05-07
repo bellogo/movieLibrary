@@ -48,6 +48,7 @@ const main = document.getElementById('movies');
 const modalLabel = document.getElementById('staticBackdropLabel');
 const addlibrary = document.getElementById('addToLibrary');
 const MovieFormModal = document.getElementById('staticBackdrop');
+const searchinput = document.getElementById('searchinput');
 
 
 
@@ -73,6 +74,7 @@ const Adventure = document.getElementById('Adventure');
 const watchbtn = document.getElementById('watchbtn');
 const unwatchedid = document.getElementById('unwatchedid');
 const watchedid = document.getElementById('watchedid');
+const searchbtn = document.getElementById('searchbtn');
 
 
 // FUNCTIONS
@@ -367,7 +369,7 @@ saveEditButton.addEventListener('click', (event) => {
   let editIndex = parseInt(event.target.name, 10);
   postEdittedData(editIndex);
   alert('Movie Editted successfully');
-  main.innerHTML = '';
+  clearRenderedMovies();
   saveEditButton.setAttribute('disabled', true);
   renderElementgroup('all');
   clearInputValues();
@@ -472,4 +474,29 @@ unwatchedid.addEventListener('click', () => {
 })
 watchedid.addEventListener('click', () => {
   renderElementgroup('watched');
+})
+
+searchbtn.addEventListener('click', (event) => {
+let val = searchinput.value;
+  event.preventDefault();
+  clearRenderedMovies();
+  let data = JSON.parse(localStorage.getItem('database'));
+
+  // console.log(val)
+const testRegex = new RegExp(val, "gi");
+for (let h = data.length - 1; h > -1; h--) {
+if(testRegex.test(data[h].title) === true){
+  // console.log('yhjbhjhh')
+  renderThisElement(data, h);
+
+}
+
+}
+searchinput.value = '';
+if (main.childElementCount === 0) {
+  let r = confirm('Search returned no results\nClick OK to view All Movies\nor cancel to search again');
+  if (r === true) {
+    renderElementgroup('all');
+  }
+}
 })
