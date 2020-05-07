@@ -5,10 +5,25 @@ $bgblue : rgb(133, 136, 172);
     margin: 0;
     padding: 0;
 }
+
+nav {
+    font-family: 'Concert One', cursive;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: rgb(131, 127, 127);
+}
+
+a.navbar-brand {
+    // font-weight: bold;
+font-family: 'Lobster';
+font-size: 25px;
+}
 article {
-    background: $bgblue;
-    // font-family: 'Bangers', cursive;
+    background-color: rgba(26, 37, 56, 0.315);
+    font-family: 'Concert One', cursive;
+    font-size: 20px;
     text-align: center;
+    // padding: 5px;
 }
 
 @mixin flexcolumn230pxwidth {
@@ -24,10 +39,15 @@ article {
     text-align: center;
     border: none;
     margin: 15px 5px 5px 5px ;
+    background-color: rgba(255, 255, 255, 0);
+
 
     .title {
         margin: 0;
         padding: 0;
+        color: rgba(2, 15, 9, 0.979);
+        font-family: lobster;
+        font-size: 20px;
 
         &:hover {
             font-weight: bold;
@@ -48,7 +68,7 @@ article {
 
                 height: 310px;
                 justify-content: space-between;
-                background-color: rgba(0, 0, 0, 0.678);
+                background-color: rgba(5, 5, 5, 0.678);
 
                 .genre {
                     color: white;
@@ -90,10 +110,14 @@ div.hover {
     justify-content: center;
     // align-items: flex-start;
 }
-a.navbar-brand {
-    font-weight: bold;
-    
-}
+
 a.links{
     background-color: rgb(128, 73, 73);
+}
+
+body {
+    background-image: url('https://cdn.inspirationhut.net/wp-content/uploads/2013/05/201.png');
+    background-position: center;
+        // background-repeat: no-repeat;
+        background-size: cover;
 }

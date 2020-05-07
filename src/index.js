@@ -93,6 +93,7 @@ const clearRenderedMovies = () => {
 const renderThisElement = (allData, a) => {
   let genreSpan = '';
   let cardDiv = document.createElement('div');
+  let header = document.createElement('h6');
   for (let i = 0; i < allData[a].genre.length; i++) {
     if (i === allData[a].genre.length - 1) {
       genreSpan += `${allData[a].genre[i]}`
