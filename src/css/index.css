@@ -5,9 +5,42 @@
   padding: 0;
 }
 
+body {
+  background-image: url("https://cdn.inspirationhut.net/wp-content/uploads/2013/05/201.png");
+  background-position: center;
+  background-size: cover;
+}
+
+nav {
+  font-family: 'Concert One', cursive;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #837f7f;
+}
+
+a.navbar-brand {
+  font-family: 'Lobster';
+  font-size: 25px;
+}
+
 article {
-  background: #8588ac;
+  background-color: rgba(26, 37, 56, 0.315);
+  font-family: 'Concert One', cursive;
+  font-size: 20px;
   text-align: center;
+}
+
+#movies {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .card {
@@ -26,11 +59,15 @@ article {
   text-align: center;
   border: none;
   margin: 15px 5px 5px 5px;
+  background-color: rgba(255, 255, 255, 0);
 }
 
 .card .title {
   margin: 0;
   padding: 0;
+  color: rgba(2, 15, 9, 0.979);
+  font-family: lobster;
+  font-size: 20px;
 }
 
 .card .title:hover {
@@ -59,11 +96,11 @@ article {
           align-items: center;
   -webkit-box-shadow: 10px 10px black;
           box-shadow: 10px 10px black;
-  height: 310px;
+  height: 305px;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.678);
+  background-color: rgba(5, 5, 5, 0.678);
 }
 
 .card div.background:hover div.hover .genre {
@@ -94,24 +131,6 @@ article {
 
 div.hover {
   display: none;
-}
-
-#movies {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-a.navbar-brand {
-  font-weight: bold;
-  font-family: Luckiest Guy;
 }
 
 a.links {
