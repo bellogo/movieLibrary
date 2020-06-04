@@ -6,6 +6,10 @@ $bgblue : rgb(133, 136, 172);
     padding: 0;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 body {
     background-image: url('../images/movielib\ background.png');
     background-position: center;

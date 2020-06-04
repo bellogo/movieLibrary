@@ -5,6 +5,10 @@
   padding: 0;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   background-image: url("../images/movielib background.png");
   background-position: center;
