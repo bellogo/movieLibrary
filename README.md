@@ -1,6 +1,6 @@
 # Movie  Library
 
-This is a personal movie library where Users can store,access, organise and manage movies they've seen or intend to see. 
+This is a personal movie library where Users can store,access, organise and manage movies they've seen or intend to see. all information are stored in the users browser storage.
 
 The purpose of building this project was to learn webpack and sass through use. further applications would include connecting a database and backend to implement a movie download site and reconstructing file system to use object oriented programming
 
