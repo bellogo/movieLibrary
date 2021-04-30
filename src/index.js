@@ -10,7 +10,8 @@ import {
   populateEditForm,
   checkForSearchInput,
   postEdittedData,
-  clearRenderedMovies
+  clearRenderedMovies,
+  deleteMovie
 } from './functions';
 
 //Button Initialisations
@@ -48,7 +49,7 @@ window.addEventListener('load', () => {
     localStorage.setItem("id", "0");
   }
   renderElementgroup('all');
-})
+});
 
 const enableSaveButtonAndLabel = () => {
   modalLabel.textContent = 'Add Movie';
@@ -61,30 +62,39 @@ const enableEditButtonAndLabel = () => {
   saveEditButton.removeAttribute('disabled');
   saveButton.style.display = 'none';
   saveEditButton.style.display = 'inline';
-}
+};
 
 addlibrary.addEventListener('click', () => {
   clearInputValues();
   enableSaveButtonAndLabel();
-  MovieFormModal.setAttribute('data-arg', 'addmovie')
-})
+  MovieFormModal.setAttribute('data-arg', 'addmovie');
+});
 
-saveButton.addEventListener('click', () => {
-  createNewMovie();
-  clearInputValues();
-  renderElementgroup('all');
-  alert('Movie added successfully');
-})
+saveButton.addEventListener('click', async () => {
+  const data = await createNewMovie();
+  if (data.status === "success"){
+    clearInputValues();
+    renderElementgroup('all');
+    alert('Movie added successfully');
+  }else{
+    alert(data.message);
+  }
+});
 
-saveEditButton.addEventListener('click', (event) => {
+saveEditButton.addEventListener('click', async (event) => {
   let editIndex = parseInt(event.target.name, 10);
-  postEdittedData(editIndex);
-  saveEditButton.setAttribute('disabled', true);
+  const data = await postEdittedData(editIndex);
+  if (data.status === "success"){
+    saveEditButton.setAttribute('disabled', true);
   alert('Movie Editted successfully');
   clearInputValues();
   clearRenderedMovies();
   renderElementgroup('all');
-})
+  }else{
+    alert(data.message);
+  }
+  
+});
 
 watchbtn.addEventListener('click', (event) => {
   let editIndex = parseInt(event.target.getAttribute('data-ind'), 10);
@@ -93,11 +103,13 @@ watchbtn.addEventListener('click', (event) => {
 })
 
 
-deletebutton.addEventListener('click', (event) => {
-  let data = JSON.parse(localStorage.getItem('database'));
-  data.splice(parseInt(event.target.name, 10), 1);
-  localStorage.setItem('database', JSON.stringify(data));
+deletebutton.addEventListener('click', async (event) => {
+  const data = await deleteMovie(event);
+  if (data.status === "success"){
   renderElementgroup('all');
+  }else{
+    alert(data.message);
+  }
 });
 
 MovieFormModal.addEventListener('focus', (event) => {
@@ -180,4 +192,4 @@ searchbtn.addEventListener('click', (event) => {
   event.preventDefault();
   clearRenderedMovies();
   checkForSearchInput();
-})
+});

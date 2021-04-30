@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 // INPUT INITIALISATIONS
 const titleInput = document.getElementById('title_input');
 const allCheckBoxes = document.getElementsByClassName('check');
@@ -15,12 +17,12 @@ const searchinput = document.getElementById('searchinput');
 
 const clearRenderedMovies = () => {
     main.innerHTML = '';
-}
+};
 
 const editWatchedBoolean = (editIndex) => {
     let data = JSON.parse(localStorage.getItem('database'));
-    if (data[editIndex].watched === false) {
-        data[editIndex].watched = true;
+    if (data.watched === false) {
+        data.watched = true;
         localStorage.setItem('database', JSON.stringify(data));
     }
 }
@@ -40,13 +42,13 @@ const renderThisElement = (allData, index) => {
     cardDiv.classList.add('card');
     cardDiv.innerHTML = `
       <h6 class="title">${allData[index].title}</h6>
-      <div class="background shadow bg-black rounded-lg" style="background-image: url(&quot;${allData[index].imagelnk}&quot;);
+      <div class="background shadow bg-black rounded-lg" style="background-image: url(&quot;${allData[index].imgLink}&quot;);
       ">
         <div class=" hover shadow bg-black rounded-lg">
           <span class="genre">${genreSpan}</span>
           <span class="rating">Rating: ${allData[index].rating}</span>
           <p>${allData[index].description}</p>
-          <a href=${allData[index].trailerlnk} target="_blank" id="${allData[index].id}trailer" class="trailers ">Watch Trailer</a>
+          <a href=${allData[index].trailerLink} target="_blank" id="${allData[index].id}trailer" class="trailers ">Watch Trailer</a>
           <div id="buttons" class="buton btn-group" role="group" aria-label="Button group with nested dropdown">
     <button name=${index} type="button" class="edit btn btn-secondary" data-toggle="modal" data-target="#staticBackdrop" onClick= "
     const MovieFormModal = document.getElementById('staticBackdrop');
@@ -62,7 +64,7 @@ const renderThisElement = (allData, index) => {
         Links
       </button>
       <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-      <a class="dropdown-item links" name=${index} target="_blank" href=${allData[index].watchlnk} data-toggle="modal" data-target="#watchmodal" onClick="
+      <a class="dropdown-item links" name=${index} target="_blank" href=${allData[index].watchLink} data-toggle="modal" data-target="#watchmodal" onClick="
       watchbtn.setAttribute('data-ind', event.target.name);
       watchbtn.setAttribute('data-href', event.target.href);
       
@@ -80,7 +82,7 @@ const renderThisElement = (allData, index) => {
 }
 
 
-const renderElementgroup = (group) => {
+const renderElementgroup = async (group) => {
     if (group === 'action' || 'adventure' || 'horror' || 'drama' || 'crime' || 'mystery' || 'sci-fi' || 'comedy' || 'fantasy' || 'thriller' || 'history' || 'family' || 'animation') {
         let allData = JSON.parse(localStorage.getItem("database"));
         clearRenderedMovies();
@@ -114,13 +116,20 @@ const renderElementgroup = (group) => {
     }
 
     if (group === "all") {
-        let allData = JSON.parse(localStorage.getItem("database"));
-        clearRenderedMovies();
-        for (let a = allData.length - 1; a > -1; a--) {
-            renderThisElement(allData, a);
+        const { data } = await axios.get("https://netflix-skinny-double.herokuapp.com/api/v1/movies");
+        if(data.status === "success") {
+            clearRenderedMovies();
+            for (let a = data.data.length - 1; a > -1; a--) {
+                renderThisElement(data.data, a);
+            }
+            localStorage.setItem("database", JSON.stringify(data.data));
+        }else{
+            alert(`${data.message}`);
         }
+   
     }
-}
+};
+
 const getCheckBoxArray = () => {
     let genreList = [];
     for (let i = 0; i < allCheckBoxes.length; i++) {
@@ -131,54 +140,93 @@ const getCheckBoxArray = () => {
     return genreList;
 }
 
-const createNewMovie = () => {
-    let data = JSON.parse(localStorage.getItem("database"));
-    let movieId = parseInt(localStorage.getItem("id"), 10);
-    movieId++;
-    localStorage.setItem("id", movieId);
-    data.push({
-        title: titleInput.value,
-        genre: getCheckBoxArray(),
-        rating: ratingInput.value,
-        description: descriptionInput.value,
-        imagelnk: imageLinkInput.value,
-        trailerlnk: trailerLinkInput.value,
-        watchlnk: watchLinkInput.value,
-        downloadLq: downloadLqInput.value,
-        downloadHq: downloadHqInput.value,
-        watched: false,
-        id: movieId
+const createNewMovie = async () => {
+    const checkBox = getCheckBoxArray();
+    let serverResponse;
+        let object = {};
+    
+        if(titleInput.value !== ''){
+            object.title = titleInput.value;
+        }
+        if(checkBox.length !== 0){
+            object.genre = checkBox;
+        }if(ratingInput.value !== ''){
+            object.rating = ratingInput.value;
+        }if(descriptionInput.value !== ''){
+            object.description = descriptionInput.value;
+        }
+        if(imageLinkInput.value !== ''){
+            object.imgLink = imageLinkInput.value;
+        }
+        if(trailerLinkInput.value !== ''){
+            object.trailerLink = trailerLinkInput.value;
+        }
+        if(watchLinkInput.value !== ''){
+            object.watchLink = watchLinkInput.value;
+        }
+        if(downloadLqInput.value !== ''){
+            object.description = downloadLqInput.value;
+        }
+        if(downloadHqInput.value !== ''){
+            object.downloadHq = downloadHqInput.value;
+        }
+        
+        await axios.post('https://netflix-skinny-double.herokuapp.com/api/v1/movie', object).then(res => {
+        serverResponse = res.data;
+        }).catch(err => {
+        serverResponse = err.response.data;
     });
-    localStorage.setItem("database", JSON.stringify(data));
-}
+    return serverResponse;
+};
 
 const populateEditForm = (editIndex) => {
     let data = JSON.parse(localStorage.getItem("database"));
     titleInput.value = data[editIndex].title;
     ratingInput.value = data[editIndex].rating;
     descriptionInput.value = data[editIndex].description;
-    imageLinkInput.value = data[editIndex].imagelnk;
-    watchLinkInput.value = data[editIndex].watchlnk;
-    trailerLinkInput.value = data[editIndex].trailerlnk;
+    imageLinkInput.value = data[editIndex].imgLink;
+    watchLinkInput.value = data[editIndex].watchLink;
+    trailerLinkInput.value = data[editIndex].trailerLink;
     downloadLqInput.value = data[editIndex].downloadLq;
     downloadHqInput.value = data[editIndex].downloadHq;
-}
-const postEdittedData = (editIndex) => {
-    let data = JSON.parse(localStorage.getItem('database'));
-    data[editIndex].title = titleInput.value;
-    data[editIndex].rating = ratingInput.value;
-    data[editIndex].description = descriptionInput.value;
-    data[editIndex].imagelnk = imageLinkInput.value;
-    data[editIndex].trailerlnk = trailerLinkInput.value;
-    data[editIndex].watchlnk = watchLinkInput.value;
-    data[editIndex].downloadLq = downloadLqInput.value;
-    data[editIndex].downloadHq = downloadHqInput.value;
+};
+const postEdittedData = async (editIndex) => {
+    let response;
+    const movie = JSON.parse(localStorage.getItem("database"))[editIndex];
+    let data = {};
+    if(movie.title !== titleInput.value){
+        data.title = titleInput.value;
+    }
+    data.rating = ratingInput.value;
+    data.description = descriptionInput.value;
+    data.imgLink = imageLinkInput.value;
+    data.trailerLink = trailerLinkInput.value;
+    data.watchLink = watchLinkInput.value;
+    data.downloadLq = downloadLqInput.value;
+    data.downloadHq = downloadHqInput.value;
 
     if (getCheckBoxArray().length > 0) {
-        data[editIndex].genre = getCheckBoxArray();
+        data.genre = getCheckBoxArray();
     }
-    localStorage.setItem('database', JSON.stringify(data));
-}
+    await axios.patch(`https://netflix-skinny-double.herokuapp.com/api/v1/movie/${movie._id}`, data).then(res => {
+        response = res.data;
+        }).catch(err => {
+        response = err.response.data;
+    });
+    return response;
+};
+
+const deleteMovie = async (event) => {
+    let response;
+    let index = parseInt(event.target.name, 10);
+    let data = JSON.parse(localStorage.getItem('database'));
+    await axios.delete(`https://netflix-skinny-double.herokuapp.com/api/v1/movie/${data[index]._id}`).then(res => {
+        response = res.data;
+        }).catch(err => {
+        response = err.response.data;
+    });
+    return response;
+};
 
 const checkForSearchInput = () => {
     let val = searchinput.value;
@@ -234,5 +282,6 @@ export {
     populateEditForm,
     checkForSearchInput,
     postEdittedData,
-    clearRenderedMovies
+    clearRenderedMovies,
+    deleteMovie
 };

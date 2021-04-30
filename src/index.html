@@ -74,12 +74,14 @@
       </form>
     </div>
   </nav>
+
   <!-- ADD MOVIE MODAL -->
 <div class="modal fade" id="staticBackdrop" data-arg="fried" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Movie Form</h5>
+        
         <button type="button" class="close closebtn" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -90,14 +92,14 @@
             <!-- TITLE -->
 
               <div class="form-group">
-                <label for="Title" class="col-form-label-sm">Title:</label>
+                <label for="Title" class="col-form-label-sm">* Title:</label>
                 <input type="text" class="form-control" id="title_input">
               </div>
               
               <!-- GENRE CHECK BOXES -->
 
               <div class="form-group row">
-                  <label for="checkBox" class="col-sm-2 col-form-label-sm">Genre:</label>
+                  <label for="checkBox" class="col-sm-2 col-form-label-sm">* Genre:</label>
                   <div id="checkBox" class="col-sm-10">
                     <div class="form-check">
                       <input class="form-check-input check" type="checkbox" value="Action">
@@ -188,19 +190,19 @@
               <!-- RATING -->
 
                <div class="form-group">
-                    <label for="recipient-name" class="col-form-label-sm">Rating:</label>
+                    <label for="recipient-name" class="col-form-label-sm">* Rating:</label>
                     <input type="number" min="1" max="10" class="form-control" id="rating_input">
                   </div>
               <!-- DESCRIPTION -->
 
               <div class="form-group">
-                <label for="message-text" class="col-form-label-sm">Description:</label>
+                <label for="message-text" class="col-form-label-sm">* Description:</label>
                 <textarea class="form-control" id="description_input" maxlength="350"></textarea>
               </div>
               <!-- IMAGE LINK -->
               
               <div class="form-group">
-                  <label for="recipient-name" class="col-form-label-sm">Image Link:</label>
+                  <label for="recipient-name" class="col-form-label-sm">* Image Link:</label>
                   <input type="text" class="form-control" id="image-link_input">
                 </div>
 
